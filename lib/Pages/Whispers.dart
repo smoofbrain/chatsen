@@ -18,7 +18,8 @@ class WhispersPage extends StatefulWidget {
   _WhispersPageState createState() => _WhispersPageState();
 }
 
-class _WhispersPageState extends State<WhispersPage> implements twitch.Listener {
+class _WhispersPageState extends State<WhispersPage>
+    implements twitch.Listener {
   @override
   void initState() {
     widget.client!.listeners.add(this);
@@ -70,6 +71,10 @@ class _WhispersPageState extends State<WhispersPage> implements twitch.Listener 
                         child: Material(
                           color: Colors.transparent,
                           child: TabBar(
+                            dividerColor: Colors.transparent,
+                            dividerHeight: 0.0,
+                            padding: EdgeInsets.zero,
+                            tabAlignment: TabAlignment.start,
                             labelPadding: EdgeInsets.only(left: 8.0),
                             isScrollable: true,
                             tabs: widget.client!.transmitters[null]!.whispers
@@ -98,7 +103,10 @@ class _WhispersPageState extends State<WhispersPage> implements twitch.Listener 
                               backgroundColor: Colors.transparent,
                               builder: (context) => SafeArea(
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom),
                                   child: WhisperJoinModal(
                                     client: widget.client,
                                     refresh: () => setState(() {}),
@@ -120,10 +128,12 @@ class _WhispersPageState extends State<WhispersPage> implements twitch.Listener 
       );
 
   @override
-  void onChannelStateChange(twitch.Channel channel, twitch.ChannelState state) {}
+  void onChannelStateChange(
+      twitch.Channel channel, twitch.ChannelState state) {}
 
   @override
-  void onConnectionStateChange(twitch.Connection connection, twitch.ConnectionState state) {}
+  void onConnectionStateChange(
+      twitch.Connection connection, twitch.ConnectionState state) {}
 
   @override
   void onHistoryLoaded(twitch.Channel channel) {}

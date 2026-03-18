@@ -232,6 +232,7 @@ class _AccountPageState extends State<AccountPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Search accounts',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     onChanged: (value) => setState(() {}),

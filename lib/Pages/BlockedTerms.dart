@@ -117,6 +117,7 @@ class _BlockedTermsPageState extends State<BlockedTermsPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Search blocked terms',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     onChanged: (value) => setState(() {}),

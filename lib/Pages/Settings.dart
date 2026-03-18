@@ -580,6 +580,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                       decoration: InputDecoration(
                                         hintText: 'Search settings',
                                         isDense: true,
+                                        filled: false,
                                         border: InputBorder.none,
                                       ),
                                       onChanged: (value) => setState(() {}),

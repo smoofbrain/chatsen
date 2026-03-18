@@ -120,6 +120,7 @@ class _CustomMentionsPageState extends State<CustomMentionsPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Search custom mentions',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     onChanged: (value) => setState(() {}),

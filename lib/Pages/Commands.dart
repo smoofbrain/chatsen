@@ -119,6 +119,7 @@ class _CommandsPageState extends State<CommandsPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Search commands',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     onChanged: (value) => setState(() {}),

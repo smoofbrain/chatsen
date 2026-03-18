@@ -119,6 +119,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
                                     decoration: InputDecoration(
                                       hintText: 'Search blocked users',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     onChanged: (value) => setState(() {}),

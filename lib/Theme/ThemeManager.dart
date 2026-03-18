@@ -21,16 +21,25 @@ class ThemeManager {
     'deepOrange': [Colors.deepOrange, Colors.deepOrangeAccent],
   };
 
-  static ThemeData buildTheme(Brightness brightness, String color, {bool highContrast = false}) {
-    var baseColorScheme = brightness == Brightness.light ? ColorScheme.light() : ColorScheme.dark();
+  static ThemeData buildTheme(Brightness brightness, String color,
+      {bool highContrast = false}) {
+    var baseColorScheme = brightness == Brightness.light
+        ? ColorScheme.light()
+        : ColorScheme.dark();
     var colorScheme = ColorScheme.fromSwatch(
       primarySwatch: colors[color]!.first,
       brightness: brightness,
-      backgroundColor: brightness == Brightness.dark ? (highContrast ? Colors.black : Colors.grey[900]) : Colors.grey[100],
+      backgroundColor: brightness == Brightness.dark
+          ? (highContrast ? Colors.black : Colors.grey[900])
+          : Colors.grey[100],
     ).copyWith(
-      surface: brightness == Brightness.dark ? (highContrast ? Color.fromARGB(255, 16, 16, 16) : Colors.grey[850]) : baseColorScheme.surface,
+      surface: brightness == Brightness.dark
+          ? (highContrast ? Color.fromARGB(255, 16, 16, 16) : Colors.grey[850])
+          : baseColorScheme.surface,
     );
-    var themeData = ThemeData.from(colorScheme: colorScheme);
+    var themeData = ThemeData.from(colorScheme: colorScheme).copyWith(
+      scaffoldBackgroundColor: colorScheme.background,
+    );
     return themeData.copyWith(
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: colorScheme.surface,
@@ -80,8 +89,13 @@ class ThemeManager {
         systemNavigationBarDividerColor: Colors.transparent,
         statusBarColor: Colors.transparent,
         systemNavigationBarIconBrightness: Brightness.light,
-        statusBarBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.light : Brightness.dark,
-        statusBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light,
+        statusBarBrightness: Theme.of(context).brightness == Brightness.light
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
       child: child,
     );

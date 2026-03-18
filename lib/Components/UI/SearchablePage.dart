@@ -107,6 +107,7 @@ class SearchablePage extends StatelessWidget {
                                     decoration: InputDecoration(
                                       hintText: 'Search settings',
                                       isDense: true,
+                                      filled: false,
                                       border: InputBorder.none,
                                     ),
                                     // onChanged: (value) => setState(() {}),
