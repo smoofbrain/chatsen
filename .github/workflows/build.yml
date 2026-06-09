@@ -96,24 +96,15 @@ jobs:
           $sed -i '/compileOptions {/a \ \ \ \ \ \ \ \ isCoreLibraryDesugaringEnabled = true' ./android/app/build.gradle.kts
           echo -e '\ndependencies {\n    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")\n}' >> ./android/app/build.gradle.kts
           $sed -i '/.*\/manifest.*/i \ \ \ \ <uses-permission android:name="android.permission.INTERNET"/>' ./android/app/src/main/AndroidManifest.xml
-          
-          # 1. Force both compileSdk and minSdk in the app's build.gradle.kts
-          if [ -f ./android/app/build.gradle.kts ]; then
-            $sed -i 's/compileSdk = .*/compileSdk = 36/' ./android/app/build.gradle.kts
-            $sed -i 's/minSdk = .*/minSdk = 21/' ./android/app/build.gradle.kts
-          elif [ -f ./android/app/build.gradle ]; then
-            $sed -i 's/compileSdkVersion .*/compileSdkVersion 36/' ./android/app/build.gradle
-            $sed -i 's/minSdkVersion .*/minSdkVersion 21/' ./android/app/build.gradle
-          fi
-
-          # 2. Inject compileSdkVersion override safely inside the existing subprojects block
-          if [ -f ./android/build.gradle.kts ]; then
-            $sed -i 's|project.evaluationDependsOn(":app")|afterEvaluate { if (project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")) { (project.extensions.getByName("android") as com.android.build.gradle.BaseExtension).compileSdkVersion(36) } }; project.evaluationDependsOn(":app")|' ./android/build.gradle.kts
-          elif [ -f ./android/build.gradle ]; then
-            $sed -i "s|project.evaluationDependsOn(':app')|afterEvaluate { project -> if (project.hasProperty('android')) { project.android { compileSdkVersion = 36 } } }; project.evaluationDependsOn(':app')|" ./android/build.gradle
-          fi
           # $sed -i "/io.flutter.embedding.android.FlutterActivity/a import android.os.Bundle\nimport android.os.Build\nimport androidx.annotation.NonNull\nimport io.flutter.embedding.android.FlutterActivityLaunchConfigs.BackgroundMode.transparent\nimport io.flutter.embedding.engine.FlutterEngine\nimport io.flutter.plugins.GeneratedPluginRegistrant" android/app/src/main/kotlin/com/chatsen/chatsen/MainActivity.kt
           # $sed -i "/FlutterActivity()/a \ \ \ \ override fun onCreate(savedInstanceState: Bundle?) {\n\ \ \ \ \ \ \ \ super.onCreate(savedInstanceState)\n\ \ \ \ \ \ \ \ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {\n\ \ \ \ \ \ \ \ \ \ \ \ window.setDecorFitsSystemWindows(false)\n\ \ \ \ \ \ \ \ }\n\ \ \ \ }" android/app/src/main/kotlin/com/chatsen/chatsen/MainActivity.kt
+
+          # Force compileSdk and minSdk in the app's build.gradle.kts
+          $sed -i 's/compileSdk = .*/compileSdk = 36/' ./android/app/build.gradle.kts
+          $sed -i 's/minSdk = .*/minSdk = 21/' ./android/app/build.gradle.kts
+
+          # Inject compileSdkVersion 36 safely inside the subprojects block (using @ as delimiter to avoid || conflicts)
+          $sed -i 's@project.evaluationDependsOn(":app")@afterEvaluate { if (project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.library")) { (project.extensions.getByName("android") as com.android.build.gradle.BaseExtension).compileSdkVersion(36) } }; project.evaluationDependsOn(":app")@' ./android/build.gradle.kts
 
       - name: Applying iOS project patches
         if: matrix.target == 'iOS'
